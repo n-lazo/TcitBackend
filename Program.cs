@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SwaggerThemes;
 using TcitBackend.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +29,7 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+    app.UseSwaggerThemes(Theme.Gruvbox);
     app.UseSwaggerUI();
 }
 
