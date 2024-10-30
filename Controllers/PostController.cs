@@ -7,28 +7,22 @@ namespace TcitBackend.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class PostsController : ControllerBase
+public class PostsController(AppDbContext context) : ControllerBase
 {
-    private readonly AppDbContext _context;
-
-    public PostsController(AppDbContext context)
-    {
-        _context = context;
-    }
 
     // GET: api/Posts
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Post>>> GetPosts()
     {
-        return await _context.Posts.ToListAsync();
+        return await context.Posts.ToListAsync();
     }
 
     // POST: api/Posts
     [HttpPost]
     public async Task<ActionResult<Post>> CreatePost(Post post)
     {
-        _context.Posts.Add(post);
-        await _context.SaveChangesAsync();
+        context.Posts.Add(post);
+        await context.SaveChangesAsync();
         return CreatedAtAction(nameof(GetPosts), new { id = post.Id }, post);
     }
 
@@ -36,14 +30,14 @@ public class PostsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeletePost(int id)
     {
-        var post = await _context.Posts.FindAsync(id);
+        var post = await context.Posts.FindAsync(id);
         if (post == null)
         {
             return NotFound();
         }
 
-        _context.Posts.Remove(post);
-        await _context.SaveChangesAsync();
+        context.Posts.Remove(post);
+        await context.SaveChangesAsync();
 
         return Ok(post);
     }

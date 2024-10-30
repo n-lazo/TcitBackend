@@ -4,14 +4,9 @@ using TcitBackend.Models;
 
 namespace TcitBackend.Services;
 
-public class PostService
+public class PostService(AppDbContext dbContext)
 {
-    private readonly AppDbContext _dbContext;
-
-    public PostService(AppDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    private readonly AppDbContext _dbContext = dbContext;
 
     public async Task<List<Post>> GetAllPostsAsync() => await _dbContext.Posts.ToListAsync();
 
